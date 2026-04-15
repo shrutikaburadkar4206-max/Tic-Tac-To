@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tic Tac Toe - React</title>
+
+  <!-- React CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+  <!-- Babel -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #ffc0cb; /* FULL PINK BACKGROUND */
+      text-align: center;
+    }
+
+    .container {
+      padding-top: 40px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    h2 {
+      color: #444;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 90px);
+      gap: 12px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    button {
+      height: 90px;
+      width: 90px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #fff0f5; /* light pink box */
+      border: 2px solid #d63384;
+      border-radius: 10px;
+    }
+
+    button:hover {
+      background: #ffb6c1;
+    }
+
+    .reset {
+      margin-top: 25px;
+      padding: 12px 25px;
+      background: #d63384;
+      color: white;
+      border: none;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .reset:hover {
+      background: #b0256a;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    function App() {
+      const [box1, setBox1] = React.useState("");
+      const [box2, setBox2] = React.useState("");
+      const [box3, setBox3] = React.useState("");
+      const [box4, setBox4] = React.useState("");
+      const [box5, setBox5] = React.useState("");
+      const [box6, setBox6] = React.useState("");
+      const [box7, setBox7] = React.useState("");
+      const [box8, setBox8] = React.useState("");
+      const [box9, setBox9] = React.useState("");
+
+      const [isX, setIsX] = React.useState(true);
+      const [winner, setWinner] = React.useState("");
+
+      const handleClick = (setBox, value) => {
+        if (value !== "" || winner !== "") return;
+
+        setBox(isX ? "X" : "O");
+        setIsX(!isX);
+      };
+
+      const checkWinner = () => {
+        // Rows
+        if (box1 && box1 === box2 && box2 === box3) setWinner(box1);
+        else if (box4 && box4 === box5 && box5 === box6) setWinner(box4);
+        else if (box7 && box7 === box8 && box8 === box9) setWinner(box7);
+
+        // Columns
+        else if (box1 && box1 === box4 && box4 === box7) setWinner(box1);
+        else if (box2 && box2 === box5 && box5 === box8) setWinner(box2);
+        else if (box3 && box3 === box6 && box6 === box9) setWinner(box3);
+
+        // Diagonals
+        else if (box1 && box1 === box5 && box5 === box9) setWinner(box1);
+        else if (box3 && box3 === box5 && box5 === box7) setWinner(box3);
+      };
+
+      React.useEffect(() => {
+        checkWinner();
+      });
+
+      return (
+        <div className="container">
+          <h1>🌸 Tic Tac Toe 🌸</h1>
+
+          <h2>
+            {winner
+              ? "Winner: " + winner
+              : "Turn: " + (isX ? "X" : "O")}
+          </h2>
+
+          <div className="board">
+            <button onClick={() => handleClick(setBox1, box1)}>{box1}</button>
+            <button onClick={() => handleClick(setBox2, box2)}>{box2}</button>
+            <button onClick={() => handleClick(setBox3, box3)}>{box3}</button>
+
+            <button onClick={() => handleClick(setBox4, box4)}>{box4}</button>
+            <button onClick={() => handleClick(setBox5, box5)}>{box5}</button>
+            <button onClick={() => handleClick(setBox6, box6)}>{box6}</button>
+
+            <button onClick={() => handleClick(setBox7, box7)}>{box7}</button>
+            <button onClick={() => handleClick(setBox8, box8)}>{box8}</button>
+            <button onClick={() => handleClick(setBox9, box9)}>{box9}</button>
+          </div>
+
+          <button
+            className="reset"
+            onClick={() => {
+              setBox1(""); setBox2(""); setBox3("");
+              setBox4(""); setBox5(""); setBox6("");
+              setBox7(""); setBox8(""); setBox9("");
+              setWinner("");
+              setIsX(true);
+            }}
+          >
+            Reset Game
+          </button>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>
